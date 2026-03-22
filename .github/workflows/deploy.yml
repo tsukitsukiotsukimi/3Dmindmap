@@ -2,7 +2,7 @@ name: Deploy to GitHub Pages
 
 on:
   push:
-    branches: [main, 'claude/3d-mindmap-app-cywv2']
+    branches: [main, 'claude/3d-mindmap-app-cywv2', 'claude/fix-blank-screen-deploy-IKk0X']
   workflow_dispatch:
 
 permissions:

@@ -1,5 +1,5 @@
 import { Canvas } from '@react-three/fiber'
-import { useCallback, useMemo } from 'react'
+import { useCallback, useMemo, Suspense } from 'react'
 import { useMindMapStore } from '../store/useMindMapStore'
 import { getVisibleNodes, getVisibleEdges } from '../domain/visibility'
 import { NodeMesh } from './NodeMesh'
@@ -40,20 +40,22 @@ export function MindMapScene() {
         onPointerMissed={handleCanvasClick}
         style={{ background: '#1a1a2e' }}
       >
-        <SceneLights />
-        <CameraController focusedNode={focusedNode} />
-        <SceneGrid />
-        <EdgeLines edges={visibleEdges} nodes={doc.nodes} />
-        {visibleNodes.map((node) => (
-          <NodeMesh
-            key={node.id}
-            node={node}
-            isSelected={node.id === selectedNodeId}
-            isRoot={node.id === doc.rootNodeId}
-            onSelect={handleSelect}
-            onDoubleClick={handleDoubleClick}
-          />
-        ))}
+        <Suspense fallback={null}>
+          <SceneLights />
+          <CameraController focusedNode={focusedNode} />
+          <SceneGrid />
+          <EdgeLines edges={visibleEdges} nodes={doc.nodes} />
+          {visibleNodes.map((node) => (
+            <NodeMesh
+              key={node.id}
+              node={node}
+              isSelected={node.id === selectedNodeId}
+              isRoot={node.id === doc.rootNodeId}
+              onSelect={handleSelect}
+              onDoubleClick={handleDoubleClick}
+            />
+          ))}
+        </Suspense>
       </Canvas>
     </div>
   )
