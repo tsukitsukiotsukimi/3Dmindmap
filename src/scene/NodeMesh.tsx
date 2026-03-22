@@ -1,4 +1,4 @@
-import { useRef, useState, useCallback } from 'react'
+import { useRef, useState, useCallback, Suspense } from 'react'
 import { Billboard, Text } from '@react-three/drei'
 import type { Mesh } from 'three'
 import type { ThreeEvent } from '@react-three/fiber'
@@ -65,20 +65,22 @@ export function NodeMesh({
           <meshBasicMaterial color="#ffffff" transparent opacity={0.7} />
         </mesh>
       )}
-      <Billboard follow lockX={false} lockY={false} lockZ={false}>
-        <Text
-          position={[0, size + 0.6, 0]}
-          fontSize={isRoot ? 0.6 : 0.4}
-          color="#ffffff"
-          anchorX="center"
-          anchorY="bottom"
-          outlineWidth={0.04}
-          outlineColor="#000000"
-          maxWidth={6}
-        >
-          {node.label}
-        </Text>
-      </Billboard>
+      <Suspense fallback={null}>
+        <Billboard follow lockX={false} lockY={false} lockZ={false}>
+          <Text
+            position={[0, size + 0.6, 0]}
+            fontSize={isRoot ? 0.6 : 0.4}
+            color="#ffffff"
+            anchorX="center"
+            anchorY="bottom"
+            outlineWidth={0.04}
+            outlineColor="#000000"
+            maxWidth={6}
+          >
+            {node.label}
+          </Text>
+        </Billboard>
+      </Suspense>
     </group>
   )
 }
